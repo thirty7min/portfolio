@@ -1,0 +1,493 @@
+.page {
+  min-height: 100vh;
+  background: #f3f4f5;
+  display: flex;
+  justify-content: center;
+  padding: 80px 24px;
+}
+
+.column {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* Profile row */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  overflow: hidden;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+}
+
+.avatar img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  display: block;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 15px;
+  color: #222;
+  line-height: 1.2;
+}
+
+.role {
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(34, 34, 34, 0.8);
+  line-height: 1.2;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tab {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 18px;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: -0.13px;
+  color: #222;
+  background: rgba(34, 34, 34, 0.05);
+  line-height: 1.5;
+}
+
+.tab:hover {
+  background: rgba(34, 34, 34, 0.1);
+}
+
+.tab-active,
+.tab-active:hover {
+  background: #222;
+  color: #fff;
+}
+
+/* Content */
+.content-wrap {
+  position: relative;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  /* Keep the element composited so text isn't re-rasterized (a visible
+     pixel snap) when the enter/exit animation finishes */
+  will-change: transform, opacity;
+}
+
+/* Directional tab crossfade: the old view fades out in an absolutely
+   positioned overlay while the new view fades in underneath — both run
+   simultaneously so the screen never reads as blank */
+.content-leaving {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.content-out-left {
+  animation: content-out-left 0.2s ease both;
+}
+
+.content-out-right {
+  animation: content-out-right 0.2s ease both;
+}
+
+@keyframes content-out-left {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+
+@keyframes content-out-right {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+}
+
+.content-in-right {
+  animation: content-in-right 0.3s ease both;
+}
+
+.content-in-left {
+  animation: content-in-left 0.3s ease both;
+}
+
+@keyframes content-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes content-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* First-load waterfall: profile, tabs, then each text block cascades in.
+   The .first-load class is removed after the first tab switch so this
+   never fights the tab crossfade. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.first-load .profile,
+.first-load .tabs {
+  animation: rise-in 0.45s ease both;
+}
+
+.first-load .tabs {
+  animation-delay: 0.08s;
+}
+
+.first-load .content > .section > * {
+  animation: rise-in 0.45s ease both;
+}
+
+.first-load .content > .section:nth-child(1) > *:nth-child(1) { animation-delay: 0.16s; }
+.first-load .content > .section:nth-child(1) > *:nth-child(2) { animation-delay: 0.22s; }
+.first-load .content > .section:nth-child(1) > *:nth-child(3) { animation-delay: 0.28s; }
+.first-load .content > .section:nth-child(1) > *:nth-child(4) { animation-delay: 0.34s; }
+.first-load .content > .section:nth-child(2) > *:nth-child(1) { animation-delay: 0.34s; }
+.first-load .content > .section:nth-child(2) > *:nth-child(2) { animation-delay: 0.4s; }
+.first-load .content > .section:nth-child(2) > *:nth-child(3) { animation-delay: 0.46s; }
+.first-load .content > .section:nth-child(2) > *:nth-child(4) { animation-delay: 0.52s; }
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.15px;
+  color: #222;
+}
+
+.section-body {
+  font-weight: 450;
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(34, 34, 34, 0.8);
+}
+
+.link {
+  color: #222;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Contact — vertical list; hover highlight is a content-hugging pill
+   in the same style as the tab buttons */
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin: 0 -12px;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 18px;
+  text-decoration: none;
+  color: #222;
+  transition: background 0.15s ease;
+}
+
+.contact-link:hover {
+  background: rgba(34, 34, 34, 0.05);
+}
+
+.contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  color: rgba(34, 34, 34, 0.75);
+}
+
+.contact-label {
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: -0.15px;
+}
+
+.contact-handle {
+  font-weight: 450;
+  font-size: 15px;
+  color: rgba(34, 34, 34, 0.6);
+}
+
+.contact-location {
+  font-weight: 450;
+  font-size: 14px;
+  color: rgba(34, 34, 34, 0.6);
+}
+
+/* Designs */
+.designs {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.design-row {
+  /* --bleed: distance from the column's edges to the viewport edges */
+  --bleed: max((100vw - 720px) / 2, 24px);
+  --pad: 8px;
+  --fade: 120px;
+  /* How far before the column edge the fade begins */
+  --lead: 100px;
+  /* Full length of the fade ramp */
+  --span: calc(var(--lead) + var(--fade));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.design-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.design-row-title {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.15px;
+  color: #222;
+}
+
+.design-nav {
+  display: flex;
+  gap: 2px;
+}
+
+.nav-btn {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #222;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: rgba(34, 34, 34, 0.06);
+}
+
+.nav-btn:active:not(:disabled) {
+  background: rgba(34, 34, 34, 0.12);
+}
+
+.nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+/* Horizontal scroller — cards bleed out to the right viewport edge,
+   like the Figma frame. Left edge stays flush with the column. */
+.design-scroller {
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Cards bleed past the column on both sides out to the viewport edges;
+     the matching padding keeps resting cards flush with the row title. */
+  margin: calc(-1 * var(--pad)) calc(-1 * var(--bleed));
+  padding: var(--pad) var(--bleed);
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--bleed);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Fades start right where the column ends and are fully transparent
+   var(--fade) later — shown only when there is more to scroll that way */
+/* Eased (sigmoid) stops instead of a linear two-stop ramp — a linear
+   fade shows a visible band where it begins */
+.design-scroller.fade-right {
+  --mask-fade-right: linear-gradient(
+    to right,
+    black calc(100% - var(--bleed) - var(--lead)),
+    rgba(0, 0, 0, 0.95) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.2),
+    rgba(0, 0, 0, 0.78) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.4),
+    rgba(0, 0, 0, 0.5) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.6),
+    rgba(0, 0, 0, 0.22) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.8),
+    rgba(0, 0, 0, 0.07) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.92),
+    transparent calc(100% - var(--bleed) + var(--fade))
+  );
+  -webkit-mask-image: var(--mask-fade-right);
+  mask-image: var(--mask-fade-right);
+}
+
+.design-scroller.fade-left {
+  --mask-fade-left: linear-gradient(
+    to right,
+    transparent calc(var(--bleed) - var(--fade)),
+    rgba(0, 0, 0, 0.07) calc(var(--bleed) + var(--lead) - var(--span) * 0.92),
+    rgba(0, 0, 0, 0.22) calc(var(--bleed) + var(--lead) - var(--span) * 0.8),
+    rgba(0, 0, 0, 0.5) calc(var(--bleed) + var(--lead) - var(--span) * 0.6),
+    rgba(0, 0, 0, 0.78) calc(var(--bleed) + var(--lead) - var(--span) * 0.4),
+    rgba(0, 0, 0, 0.95) calc(var(--bleed) + var(--lead) - var(--span) * 0.2),
+    black calc(var(--bleed) + var(--lead))
+  );
+  -webkit-mask-image: var(--mask-fade-left);
+  mask-image: var(--mask-fade-left);
+}
+
+.design-scroller.fade-left.fade-right {
+  --mask-fade-both: linear-gradient(
+    to right,
+    transparent calc(var(--bleed) - var(--fade)),
+    rgba(0, 0, 0, 0.07) calc(var(--bleed) + var(--lead) - var(--span) * 0.92),
+    rgba(0, 0, 0, 0.22) calc(var(--bleed) + var(--lead) - var(--span) * 0.8),
+    rgba(0, 0, 0, 0.5) calc(var(--bleed) + var(--lead) - var(--span) * 0.6),
+    rgba(0, 0, 0, 0.78) calc(var(--bleed) + var(--lead) - var(--span) * 0.4),
+    rgba(0, 0, 0, 0.95) calc(var(--bleed) + var(--lead) - var(--span) * 0.2),
+    black calc(var(--bleed) + var(--lead)),
+    black calc(100% - var(--bleed) - var(--lead)),
+    rgba(0, 0, 0, 0.95) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.2),
+    rgba(0, 0, 0, 0.78) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.4),
+    rgba(0, 0, 0, 0.5) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.6),
+    rgba(0, 0, 0, 0.22) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.8),
+    rgba(0, 0, 0, 0.07) calc(100% - var(--bleed) - var(--lead) + var(--span) * 0.92),
+    transparent calc(100% - var(--bleed) + var(--fade))
+  );
+  -webkit-mask-image: var(--mask-fade-both);
+  mask-image: var(--mask-fade-both);
+}
+
+.design-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.design-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+}
+
+.design-card {
+  margin: 0;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-snap-align: start;
+}
+
+.design-preview {
+  width: 350px;
+  height: 212px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px -12px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.design-card:hover .design-preview {
+  transform: scale(1.02);
+}
+
+.design-preview img {
+  width: 350px;
+  height: 212px;
+  object-fit: cover;
+  display: block;
+}
+
+.design-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.design-title {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #222;
+  letter-spacing: -0.15px;
+}
+
+.design-year {
+  font-weight: 450;
+  font-size: 15px;
+  line-height: 1.4;
+  color: rgba(34, 34, 34, 0.6);
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 48px 20px;
+  }
+  .design-row {
+    --bleed: 20px;
+  }
+}
