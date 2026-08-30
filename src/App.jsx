@@ -224,25 +224,63 @@ function DesignsSection() {
 
 function MailIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
-      <path d="M3.5 7L12 13L20.5 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path
+        d="M14.6666 5.02335V11.3333C14.6666 11.8435 14.4717 12.3344 14.1217 12.7055C13.7718 13.0767 13.2932 13.3001 12.7839 13.33L12.6666 13.3333H3.33325C2.82311 13.3334 2.33224 13.1385 1.96108 12.7885C1.58991 12.4385 1.36651 11.9599 1.33659 11.4507L1.33325 11.3333V5.02335L7.62992 9.22135L7.70725 9.26535C7.79839 9.30988 7.89849 9.33302 7.99992 9.33302C8.10135 9.33302 8.20145 9.30988 8.29259 9.26535L8.36992 9.22135L14.6666 5.02335Z"
+        fill="#222222"
+        fillOpacity="0.8"
+      />
+      <path
+        d="M12.6666 2.66666C13.3866 2.66666 14.0179 3.04666 14.3699 3.61799L7.99988 7.86466L1.62988 3.61799C1.79704 3.3465 2.02669 3.11892 2.29969 2.95424C2.57268 2.78957 2.8811 2.69256 3.19922 2.67132L3.33322 2.66666H12.6666Z"
+        fill="#222222"
+        fillOpacity="0.8"
+      />
     </svg>
   )
 }
 
 function LinkedInIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.17V23H8V8z" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <g clipPath="url(#clip0_3_2506)">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2.55556 15H13.4444C14.3036 15 15 14.3036 15 13.4444V2.55556C15 1.69645 14.3036 1 13.4444 1H2.55556C1.69645 1 1 1.69645 1 2.55556V13.4444C1 14.3036 1.69645 15 2.55556 15Z"
+          fill="#222222"
+          fillOpacity="0.8"
+        />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M13.0554 13.0556H10.9779V9.51709C10.9779 8.54694 10.6093 8.00478 9.84142 8.00478C9.00607 8.00478 8.56963 8.56898 8.56963 9.51709V13.0556H6.56748V6.31483H8.56963V7.22281C8.56963 7.22281 9.17162 6.10889 10.6021 6.10889C12.0318 6.10889 13.0554 6.98199 13.0554 8.78775V13.0556ZM4.17893 5.43218C3.49696 5.43218 2.94434 4.87522 2.94434 4.18832C2.94434 3.50142 3.49696 2.94446 4.17893 2.94446C4.8609 2.94446 5.4132 3.50142 5.4132 4.18832C5.4132 4.87522 4.8609 5.43218 4.17893 5.43218ZM3.14511 13.0556H5.23283V6.31483H3.14511V13.0556Z"
+          fill="#E9E9EA"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_3_2506">
+          <rect width="14" height="14" fill="white" transform="translate(1 1)" />
+        </clipPath>
+      </defs>
     </svg>
   )
 }
 
 function XIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z" />
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <g clipPath="url(#clip0_3_2513)">
+        <path
+          d="M12.0134 1.67667H14.1601L9.44673 7.04333L14.9534 14.3233H10.6321L7.24873 9.89933L3.3754 14.3233H1.22873L6.22206 8.58333L0.94873 1.67667H5.3774L8.43406 5.718L12.0134 1.67667ZM11.2621 13.0633H12.4521L4.75206 2.89H3.4734L11.2621 13.0633Z"
+          fill="#222222"
+          fillOpacity="0.8"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_3_2513">
+          <rect width="14" height="12.6467" fill="white" transform="translate(1 1.67667)" />
+        </clipPath>
+      </defs>
     </svg>
   )
 }
@@ -290,11 +328,11 @@ function ContactSection() {
   const easternTime = useEasternTime()
 
   return (
-    <section className="section">
+    <section className="section contact">
       <p className="section-body">
         I&rsquo;m open to work opportunities, collaborations, or just a good
-        chat about product and design. Reach out anytime — email is fastest,
-        but I&rsquo;m around on all of these:
+        chat about product and design. Feel free to reach out at any time,
+        I&rsquo;m active on all of the below.
       </p>
       <div className="contact-links">
         {CONTACT_LINKS.map((link) => (
@@ -311,7 +349,7 @@ function ContactSection() {
         ))}
       </div>
       <p className="contact-location">
-        Based in Northern Virginia, where it&rsquo;s {easternTime}
+        Based in Northern Virginia, where it&rsquo;s {easternTime}.
       </p>
     </section>
   )
