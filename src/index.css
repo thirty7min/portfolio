@@ -18,6 +18,13 @@ body {
   overflow-x: clip;
 }
 
+/* Reserve the scrollbar's width even when content fits, so the layout
+   doesn't shift when switching to a taller/shorter tab (visible on
+   Windows where scrollbars take up space) */
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Helvetica, Arial, sans-serif;
