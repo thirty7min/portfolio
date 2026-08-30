@@ -1,26 +1,41 @@
 import { useEffect, useRef, useState } from 'react'
 import avatar from './assets/avatar.png'
-import designTaskTracker from './assets/design-task-tracker.png'
-import designSignIn from './assets/design-sign-in.png'
-import designDashboard from './assets/design-dashboard.png'
+import Toast from './components/Toast'
+import {
+  MorphShowcase,
+  StackShowcase,
+  MobileShowcase,
+  ToastPlayground,
+} from './components/ToastDemo'
+import DesignPage from './components/DesignPage'
 import './App.css'
 
 const TABS = ['About', 'Designs', 'Contact']
 
-const PRODUCT_DESIGNS = [
-  { title: 'Task tracker', year: '2026', image: designTaskTracker },
-  { title: 'Sign in', year: '2026', image: designSignIn },
-  { title: 'Dashboard design', year: '2026', image: designDashboard },
-  { title: 'Task tracker', year: '2026', image: designTaskTracker },
-  { title: 'Sign in', year: '2026', image: designSignIn },
-]
+const TOAST_INTRO =
+  'This toast is part of a design system I made for showing responses in an application. When the state of a toast changes, the icon morphs in place instead of swapping out, so something like loading finishing into success reads as one continuous motion.'
+
+const TOAST_CHALLENGE =
+  'Part of the challenge with this design was making the component feel fluid at varying heights. Some toasts are one line and others have multi-line descriptions, so when they stack, taller toasts get capped behind the front one to keep the pile tidy. Everything returns to its natural height when you hover to expand the stack.'
+
+const TOAST_MOBILE =
+  'On mobile the same toast collapses into a title only pill. The description and action drop away, the radius goes full, and a backdrop blur keeps it legible over whatever is behind it.'
+
+const TOAST_PLAYGROUND =
+  'And here is the real thing, go ahead and fire a few. They stack at the bottom left of the screen just like the demo above, timers pause while you hover the stack, and hitting Retry patches the toast through loading to success in place.'
+
+const PRODUCT_DESIGNS = []
 
 const COMPONENT_DESIGNS = [
-  { title: 'Dashboard design', year: '2026', image: designTaskTracker },
-  { title: 'Dashboard design', year: '2026', image: designTaskTracker },
-  { title: 'Sign in', year: '2026', image: designSignIn },
-  { title: 'Dashboard design', year: '2026', image: designDashboard },
+  { slug: 'toast', title: 'Toast', year: '2026', type: 'toast' },
 ]
+
+const ALL_DESIGNS = [...PRODUCT_DESIGNS, ...COMPONENT_DESIGNS]
+
+const DESIGN_GROUPS = [
+  { label: 'Product design', items: PRODUCT_DESIGNS },
+  { label: 'Component design', items: COMPONENT_DESIGNS },
+].filter((g) => g.items.length > 0)
 
 function ChevronLeft() {
   return (
@@ -50,7 +65,32 @@ function ChevronRight() {
   )
 }
 
-function DesignRow({ label, count, items }) {
+function DesignCardPreview({ item }) {
+  if (item.type === 'toast') {
+    return (
+      <div className="design-preview design-preview-live">
+        <div className="preview-toast">
+          <div className="preview-stack">
+            <div className="preview-peek preview-peek--2" />
+            <div className="preview-peek preview-peek--1" />
+            <Toast
+              variant="success"
+              title="Success"
+              description="Your password has been updated."
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div className="design-preview">
+      <img src={item.image} alt={`${item.title} preview`} />
+    </div>
+  )
+}
+
+function DesignRow({ label, count, items, onOpen }) {
   const scrollerRef = useRef(null)
   const targetRef = useRef(null) // pending smooth-scroll destination
   const settleRef = useRef(null)
@@ -145,10 +185,20 @@ function DesignRow({ label, count, items }) {
       >
         <div className="design-track">
           {items.map((item, i) => (
-            <figure className="design-card" key={`${item.title}-${i}`}>
-              <div className="design-preview">
-                <img src={item.image} alt={`${item.title} preview`} />
-              </div>
+            <figure
+              className="design-card"
+              key={`${item.title}-${i}`}
+              role="button"
+              tabIndex={0}
+              onClick={() => onOpen(item)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onOpen(item)
+                }
+              }}
+            >
+              <DesignCardPreview item={item} />
               <figcaption className="design-meta">
                 <p className="design-title">{item.title}</p>
                 <p className="design-year">{item.year}</p>
@@ -205,20 +255,52 @@ function AboutSection() {
   )
 }
 
-function DesignsSection() {
+function DesignsSection({ onOpen }) {
   return (
     <div className="designs">
-      <DesignRow
-        label="Product design"
-        count={PRODUCT_DESIGNS.length}
-        items={PRODUCT_DESIGNS}
-      />
-      <DesignRow
-        label="Component design"
-        count={COMPONENT_DESIGNS.length}
-        items={COMPONENT_DESIGNS}
-      />
+      {DESIGN_GROUPS.map((group) => (
+        <DesignRow
+          key={group.label}
+          label={group.label}
+          count={group.items.length}
+          items={group.items}
+          onOpen={onOpen}
+        />
+      ))}
     </div>
+  )
+}
+
+function DesignDetail({ item }) {
+  if (item.type === 'toast') {
+    return (
+      <>
+        <p className="modal-desc">{TOAST_INTRO}</p>
+        <div className="modal-showcase">
+          <MorphShowcase />
+        </div>
+        <p className="modal-desc">{TOAST_CHALLENGE}</p>
+        <div className="modal-showcase">
+          <StackShowcase />
+        </div>
+        <p className="modal-desc">{TOAST_MOBILE}</p>
+        <div className="modal-showcase">
+          <MobileShowcase />
+        </div>
+        <p className="modal-desc">{TOAST_PLAYGROUND}</p>
+        <div className="modal-showcase">
+          <ToastPlayground />
+        </div>
+      </>
+    )
+  }
+  return (
+    <>
+      {item.description && <p className="modal-desc">{item.description}</p>}
+      <div className="modal-showcase">
+        <img className="modal-image" src={item.image} alt={`${item.title} preview`} />
+      </div>
+    </>
   )
 }
 
@@ -357,9 +439,9 @@ function ContactSection() {
 
 const LEAVE_MS = 200 // matches .content-out-* duration
 
-function renderSection(tab) {
+function renderSection(tab, onOpenDesign) {
   if (tab === 'About') return <AboutSection />
-  if (tab === 'Designs') return <DesignsSection />
+  if (tab === 'Designs') return <DesignsSection onOpen={onOpenDesign} />
   return <ContactSection />
 }
 
@@ -368,9 +450,81 @@ export default function App() {
   const [leaving, setLeaving] = useState(null) // { tab, dir } — old view fading out
   const [enterDir, setEnterDir] = useState(0) // direction of the last switch
   const [firstLoad, setFirstLoad] = useState(true) // waterfall entrance runs once
+  const [route, setRoute] = useState(window.location.pathname)
+  const [exitingDesign, setExitingDesign] = useState(null) // detail sliding out right
+  const [homeEntering, setHomeEntering] = useState(false) // home sliding in from left
+  const [homeExit, setHomeExit] = useState(null) // home sliding out left ({ scrollY })
   const switchTimer = useRef(null)
+  const routeRef = useRef(window.location.pathname)
+  const exitTimer = useRef(null)
+  const homeExitTimer = useRef(null)
 
-  useEffect(() => () => clearTimeout(switchTimer.current), [])
+  useEffect(
+    () => () => {
+      clearTimeout(switchTimer.current)
+      clearTimeout(exitTimer.current)
+      clearTimeout(homeExitTimer.current)
+    },
+    [],
+  )
+
+  // Home slides out to the left as a design page enters from the right
+  const startHomeExit = () => {
+    setHomeExit({ scrollY: window.scrollY })
+    clearTimeout(homeExitTimer.current)
+    homeExitTimer.current = setTimeout(() => setHomeExit(null), 350)
+  }
+
+  const setRouteTracked = (path) => {
+    routeRef.current = path
+    setRoute(path)
+  }
+
+  // Detail page exits to the right while home enters from the left
+  const startHomeTransition = (fromItem) => {
+    setActive('Designs')
+    setFirstLoad(false)
+    setExitingDesign(fromItem)
+    setHomeEntering(true)
+    clearTimeout(exitTimer.current)
+    exitTimer.current = setTimeout(() => {
+      setExitingDesign(null)
+      setHomeEntering(false)
+    }, 350)
+  }
+
+  useEffect(() => {
+    const onPop = () => {
+      const path = window.location.pathname
+      const prevPath = routeRef.current
+      setRouteTracked(path)
+      if (path === '/') {
+        const fromItem = ALL_DESIGNS.find((d) => `/${d.slug}` === prevPath)
+        if (fromItem) startHomeTransition(fromItem)
+      } else if (prevPath === '/' && ALL_DESIGNS.some((d) => `/${d.slug}` === path)) {
+        startHomeExit()
+      }
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const navigate = (path, { replace = false } = {}) => {
+    if (replace) window.history.replaceState({}, '', path)
+    else window.history.pushState({}, '', path)
+    setRouteTracked(path)
+  }
+
+  const openDesign = (item) => {
+    startHomeExit()
+    navigate(`/${item.slug}`)
+  }
+
+  const closeDesign = (fromItem) => {
+    navigate('/')
+    startHomeTransition(fromItem)
+  }
 
   const switchTab = (tab) => {
     if (tab === active) return
@@ -383,9 +537,27 @@ export default function App() {
     switchTimer.current = setTimeout(() => setLeaving(null), LEAVE_MS)
   }
 
-  return (
+  const designIndex = ALL_DESIGNS.findIndex((d) => `/${d.slug}` === route)
+
+  const homeView = (overlay = false) => (
     <div className="page">
-      <div className={`column ${firstLoad ? 'first-load' : ''}`}>
+      {!overlay && exitingDesign && (
+        <DesignPage
+          exiting
+          item={exitingDesign}
+          index={ALL_DESIGNS.indexOf(exitingDesign)}
+          all={ALL_DESIGNS}
+          groups={DESIGN_GROUPS}
+          renderDetail={(d) => <DesignDetail item={d} />}
+          onSelect={() => {}}
+          onClose={() => {}}
+        />
+      )}
+      <div
+        className={`column ${!overlay && firstLoad ? 'first-load' : ''} ${
+          !overlay && homeEntering ? 'home-in-left' : ''
+        }`}
+      >
         <header className="profile">
           <div className="avatar">
             <img src={avatar} alt="Kason Calhoun" />
@@ -421,7 +593,7 @@ export default function App() {
                   : ''
             }`}
           >
-            {renderSection(active)}
+            {renderSection(active, openDesign)}
           </div>
           {leaving && (
             <div
@@ -431,11 +603,37 @@ export default function App() {
               }`}
               aria-hidden="true"
             >
-              {renderSection(leaving.tab)}
+              {renderSection(leaving.tab, openDesign)}
             </div>
           )}
         </main>
       </div>
     </div>
   )
+
+  if (designIndex !== -1) {
+    const item = ALL_DESIGNS[designIndex]
+    return (
+      <>
+        <DesignPage
+          item={item}
+          index={designIndex}
+          all={ALL_DESIGNS}
+          groups={DESIGN_GROUPS}
+          renderDetail={(d) => <DesignDetail item={d} />}
+          onSelect={(d) => navigate(`/${d.slug}`, { replace: true })}
+          onClose={() => closeDesign(item)}
+        />
+        {homeExit && (
+          <div className="home-exit" aria-hidden="true">
+            <div style={{ transform: `translateY(-${homeExit.scrollY}px)` }}>
+              {homeView(true)}
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
+
+  return homeView()
 }

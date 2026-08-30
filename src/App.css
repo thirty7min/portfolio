@@ -64,6 +64,7 @@
 }
 
 .tab {
+  transition: transform 0.16s var(--ease-out);
   height: 32px;
   padding: 0 12px;
   border-radius: 18px;
@@ -76,6 +77,10 @@
 
 .tab:hover {
   background: rgba(34, 34, 34, 0.1);
+}
+
+.tab:active {
+  transform: scale(0.97);
 }
 
 .tab-active,
@@ -110,11 +115,11 @@
 }
 
 .content-out-left {
-  animation: content-out-left 0.2s ease both;
+  animation: content-out-left 0.2s var(--ease-out) both;
 }
 
 .content-out-right {
-  animation: content-out-right 0.2s ease both;
+  animation: content-out-right 0.2s var(--ease-out) both;
 }
 
 @keyframes content-out-left {
@@ -140,11 +145,11 @@
 }
 
 .content-in-right {
-  animation: content-in-right 0.3s ease both;
+  animation: content-in-right 0.3s var(--ease-out) both;
 }
 
 .content-in-left {
-  animation: content-in-left 0.3s ease both;
+  animation: content-in-left 0.3s var(--ease-out) both;
 }
 
 @keyframes content-in-right {
@@ -185,7 +190,7 @@
 
 .first-load .profile,
 .first-load .tabs {
-  animation: rise-in 0.45s ease both;
+  animation: rise-in 0.45s var(--ease-out) both;
 }
 
 .first-load .tabs {
@@ -193,7 +198,7 @@
 }
 
 .first-load .content > .section > * {
-  animation: rise-in 0.45s ease both;
+  animation: rise-in 0.45s var(--ease-out) both;
 }
 
 .first-load .content > .section:nth-child(1) > *:nth-child(1) { animation-delay: 0.16s; }
@@ -281,6 +286,662 @@
   font-size: 15px;
   line-height: 1.5;
   color: rgba(34, 34, 34, 0.8);
+}
+
+/* Design modal — centered over a scrim; the whole modal scrolls with
+   the overlay when its content is taller than the viewport */
+/* Design detail — a routed page (e.g. /toast). Content sits in a
+   centered 720px column; the other designs peek in as a faded vertical
+   rail on the right edge. The page enters from the right, same
+   language as the tab transitions. */
+.design-page {
+  min-height: 100vh;
+  background: #f3f4f5;
+  animation: content-in-right 0.3s var(--ease-out) both;
+}
+
+/* Closing: the detail slides out right while home enters from the left */
+.design-page--exiting {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  overflow: hidden;
+  pointer-events: none;
+  animation: page-out-right 0.3s var(--ease-out) both;
+}
+
+@keyframes page-out-right {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+.home-in-left {
+  animation: content-in-left 0.3s var(--ease-out) both;
+}
+
+/* Opening a design: a copy of home slides out left on top while the
+   design page enters from the right underneath */
+.home-exit {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  overflow: hidden;
+  pointer-events: none;
+  animation: page-out-left 0.3s var(--ease-out) both;
+}
+
+@keyframes page-out-left {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+.design-page-layout {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 0;
+}
+
+/* Left sidebar: back button + collapsible design groups */
+.design-sidebar {
+  flex: 1;
+  min-width: 0;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 29px;
+  position: sticky;
+  top: 80px;
+}
+
+.sidebar-back-row {
+  height: 44px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.sidebar-back {
+  transition: transform 0.16s var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px 0 8px;
+  border-radius: 18px;
+  font-weight: 500;
+  font-size: 15px;
+  color: #222;
+  transition: background 0.15s ease;
+}
+
+.sidebar-back:hover {
+  background: rgba(34, 34, 34, 0.05);
+}
+
+.sidebar-back:active {
+  background: rgba(34, 34, 34, 0.1);
+  transform: scale(0.97);
+}
+
+.design-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 32px;
+}
+
+.design-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.design-group-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(34, 34, 34, 0.65);
+  transition: color 0.15s ease;
+}
+
+.design-group-head:hover {
+  color: #000;
+}
+
+/* Smooth expand/collapse via the grid-rows 0fr → 1fr trick */
+.design-group-items {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  transition: grid-template-rows 0.2s var(--ease-out);
+}
+
+.design-group-items--open {
+  grid-template-rows: 1fr;
+}
+
+.design-group-items-inner {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.design-group-item {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  /* Rows keep their height while the container clips them — without
+     this, flexbox squashes every row during the expand */
+  flex-shrink: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(34, 34, 34, 0.65);
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+/* Quick waterfall fade as the group opens — items stay in place */
+.design-group-items--open .design-group-item {
+  opacity: 1;
+  transition-delay: calc(var(--i, 0) * 25ms);
+}
+
+.design-group-item:hover {
+  color: #000;
+}
+
+.design-group-item--active {
+  color: #000;
+}
+
+.design-page-wrap {
+  position: relative;
+  width: 720px;
+  flex-shrink: 0;
+  /* Aligns the title text with the sidebar's back-button label */
+  padding-top: 8px;
+}
+
+.design-page-spacer {
+  flex: 1;
+  min-width: 0;
+  padding: 0 24px;
+}
+
+.design-page-main {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+/* Vertical transitions between designs, following list order */
+.detail-in-up {
+  animation: detail-in-up 0.3s var(--ease-out) both;
+}
+
+.detail-in-down {
+  animation: detail-in-down 0.3s var(--ease-out) both;
+}
+
+.detail-leaving {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.detail-out-up {
+  animation: detail-out-up 0.2s var(--ease-out) both;
+}
+
+.detail-out-down {
+  animation: detail-out-down 0.2s var(--ease-out) both;
+}
+
+@keyframes detail-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes detail-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes detail-out-up {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+}
+
+@keyframes detail-out-down {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+@media (max-width: 1140px) {
+  .design-sidebar,
+  .design-page-spacer {
+    display: none;
+  }
+
+  .design-page-layout {
+    padding: 80px 24px;
+  }
+
+  .design-page-wrap {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+.modal-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Back arrow pinned top-left — narrow screens only, where the sidebar
+   (and its back button) is hidden */
+.page-back {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 101;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: rgba(34, 34, 34, 0.7);
+  background: rgba(34, 34, 34, 0.05);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.page-back:hover {
+  background: rgba(34, 34, 34, 0.1);
+  color: #222;
+}
+
+@media (max-width: 1140px) {
+  .page-back {
+    display: inline-flex;
+  }
+}
+
+.modal-title {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.modal-year {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(34, 34, 34, 0.8);
+}
+
+.modal-desc {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.modal-showcase {
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+  background: #fff;
+  border-radius: 24px;
+}
+
+/* Playground buttons */
+.demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.demo-pill {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 18px;
+  font-weight: 500;
+  font-size: 13px;
+  color: #222;
+  background: rgba(34, 34, 34, 0.05);
+  line-height: 1.5;
+  transition: background 0.15s ease, transform 0.16s var(--ease-out);
+}
+
+.demo-pill:hover {
+  background: rgba(34, 34, 34, 0.1);
+}
+
+.demo-pill:active {
+  transform: scale(0.97);
+}
+
+/* Mobile variant showcase — colorful surface so the blur reads */
+.mobile-stage {
+  position: relative;
+  width: min(360px, 100%);
+  height: 220px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #f3f4f5;
+}
+
+.mobile-toast-wrap {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  justify-content: center;
+  animation: mobile-toast-cycle 5.5s var(--ease-in-out) infinite;
+}
+
+.mobile-toast-wrap .toast--mobile {
+  width: 100%;
+  max-width: 100%;
+}
+
+@keyframes mobile-toast-cycle {
+  0% {
+    transform: translateY(140%);
+    opacity: 0;
+  }
+  10%,
+  74% {
+    transform: none;
+    opacity: 1;
+  }
+  86%,
+  100% {
+    transform: translateY(-10px) scale(0.92);
+    opacity: 0;
+  }
+}
+
+.modal-image {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+/* Toast showcase inside the modal — display only, not interactive */
+.toast-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Fixed height so state changes never shift the layout below */
+.toast-slot {
+  height: 82px;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* Scripted stack demo — the portal's real stacking geometry, driven by
+   a timeline instead of live toasts. All three demo toasts are the same
+   height so the measured-height vars are constants here. */
+.stack-demo {
+  position: relative;
+  width: 380px;
+  max-width: 100%;
+  height: 290px;
+  --h-0: 82px;
+  --h-1: 82px;
+}
+
+.stack-demo__slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  --slot-h: 82px;
+  transform-origin: bottom center;
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.stack-demo .toast {
+  max-height: var(--slot-h);
+  transition:
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stack-demo__slot[data-stack-index='0'] {
+  transform: translateY(0) scale(1);
+  z-index: 3;
+}
+
+.stack-demo__slot[data-stack-index='1'] {
+  --slot-scale: 0.93;
+  --back-cap: calc((var(--h-0) + 14px) / 0.93);
+  transform: translateY(
+      calc(
+        min(var(--slot-h), var(--back-cap)) * var(--slot-scale) - var(--h-0) -
+          14px
+      )
+    )
+    scale(var(--slot-scale));
+  z-index: 2;
+}
+
+.stack-demo__slot[data-stack-index='1'] .toast {
+  background: #2c2c2c;
+  max-height: var(--back-cap);
+}
+
+.stack-demo__slot[data-stack-index='2'] {
+  --slot-scale: 0.86;
+  --back-cap: calc((var(--h-0) + 26px) / 0.86);
+  transform: translateY(
+      calc(
+        min(var(--slot-h), var(--back-cap)) * var(--slot-scale) - var(--h-0) -
+          26px
+      )
+    )
+    scale(var(--slot-scale));
+  z-index: 1;
+}
+
+.stack-demo__slot[data-stack-index='2'] .toast {
+  background: #383838;
+  max-height: var(--back-cap);
+}
+
+/* "Hover" expansion — 8px gaps, everything back to full size and black */
+.stack-demo--hovered .stack-demo__slot[data-stack-index='1'] {
+  transform: translateY(calc(-1 * (var(--h-0) + 8px))) scale(1);
+}
+
+.stack-demo--hovered .stack-demo__slot[data-stack-index='2'] {
+  transform: translateY(calc(-1 * (var(--h-0) + var(--h-1) + 16px))) scale(1);
+}
+
+.stack-demo--hovered .stack-demo__slot .toast {
+  background: #222;
+  max-height: var(--slot-h);
+  transition:
+    background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    max-height 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Enter: one-frame starting state, removed on next paint to slide in */
+.stack-demo__slot.stack-demo__slot--entering {
+  transform: translateY(110%) scale(0.92);
+  opacity: 0;
+  transition: none;
+}
+
+/* Exit: scale down, lift, fade — per stack position, matching the
+   portal's per-index exit formulas */
+.stack-demo__slot.stack-demo__slot--leaving[data-stack-index='0'] {
+  transform: translateY(calc(var(--slot-h) * -0.2 - 10px)) scale(0.8);
+  opacity: 0;
+}
+
+.stack-demo__slot.stack-demo__slot--leaving[data-stack-index='1'] {
+  transform: translateY(
+      calc(min(var(--slot-h), var(--back-cap)) * 0.8 - var(--h-0) - 24px)
+    )
+    scale(0.8);
+  opacity: 0;
+}
+
+.stack-demo__slot.stack-demo__slot--leaving[data-stack-index='2'] {
+  transform: translateY(
+      calc(min(var(--slot-h), var(--back-cap)) * 0.8 - var(--h-0) - 36px)
+    )
+    scale(0.8);
+  opacity: 0;
+}
+
+/* Simulated cursor */
+.demo-cursor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  opacity: 0;
+  transform: translate(360px, 330px);
+  transition:
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+/* Over the center of the front toast — triggers the hover expansion */
+.demo-cursor--center {
+  opacity: 1;
+  transform: translate(180px, 246px);
+}
+
+/* On the front toast's close (X) button */
+.demo-cursor--x {
+  opacity: 1;
+  transform: translate(346px, 234px);
+}
+
+.demo-cursor--click {
+  transform: translate(346px, 234px) scale(0.8);
+  transition:
+    transform 0.12s ease,
+    opacity 0.35s ease;
+}
+
+/* Live component preview inside a design card */
+.design-preview-live {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-toast {
+  transform: scale(0.66); /* 0.78 × 0.85 */
+  pointer-events: none;
+}
+
+/* Static collapsed stack for the card thumbnail */
+.preview-stack {
+  position: relative;
+  margin-top: 26px;
+}
+
+.preview-stack .toast {
+  position: relative;
+  z-index: 3;
+}
+
+.preview-peek {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  height: 44px;
+  border-radius: 20px;
+}
+
+.preview-peek--1 {
+  top: -14px;
+  width: 93%;
+  background: #2c2c2c;
+  z-index: 2;
+}
+
+.preview-peek--2 {
+  top: -26px;
+  width: 86%;
+  background: #383838;
+  z-index: 1;
 }
 
 /* Designs */
@@ -435,21 +1096,23 @@
   flex-direction: column;
   gap: 16px;
   scroll-snap-align: start;
+  cursor: pointer;
 }
 
 .design-preview {
   width: 350px;
   height: 212px;
-  border-radius: 12px;
+  border-radius: 24px;
   overflow: hidden;
-  background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04),
-    0 8px 24px -12px rgba(0, 0, 0, 0.12);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(34, 34, 34, 0.05);
+  transition: transform 0.2s var(--ease-out);
 }
 
-.design-card:hover .design-preview {
-  transform: scale(1.02);
+/* Hover motion only for devices that actually hover */
+@media (hover: hover) and (pointer: fine) {
+  .design-card:hover .design-preview {
+    transform: scale(1.02);
+  }
 }
 
 .design-preview img {
@@ -485,5 +1148,56 @@
   }
   .design-row {
     --bleed: 20px;
+  }
+}
+
+/* Reduced motion: keep opacity fades, drop movement */
+@keyframes reduced-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes reduced-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content-in-right,
+  .content-in-left,
+  .home-in-left,
+  .design-page,
+  .detail-in-up,
+  .detail-in-down,
+  .first-load .profile,
+  .first-load .tabs,
+  .first-load .content > .section > * {
+    animation-name: reduced-fade-in;
+  }
+
+  .content-out-left,
+  .content-out-right,
+  .detail-out-up,
+  .detail-out-down,
+  .page-out-left,
+  .page-out-right,
+  .design-page--exiting,
+  .home-exit {
+    animation-name: reduced-fade-out;
+  }
+
+  .design-card:hover .design-preview,
+  .tab:active,
+  .demo-pill:active,
+  .sidebar-back:active {
+    transform: none;
   }
 }
