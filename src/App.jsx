@@ -437,7 +437,7 @@ function ContactSection() {
   )
 }
 
-const LEAVE_MS = 200 // matches .content-out-* duration
+const LEAVE_MS = 280 // matches .content-out-* duration
 
 function renderSection(tab, onOpenDesign) {
   if (tab === 'About') return <AboutSection />
@@ -472,7 +472,7 @@ export default function App() {
   const startHomeExit = () => {
     setHomeExit({ scrollY: window.scrollY })
     clearTimeout(homeExitTimer.current)
-    homeExitTimer.current = setTimeout(() => setHomeExit(null), 350)
+    homeExitTimer.current = setTimeout(() => setHomeExit(null), 500)
   }
 
   const setRouteTracked = (path) => {
@@ -490,7 +490,7 @@ export default function App() {
     exitTimer.current = setTimeout(() => {
       setExitingDesign(null)
       setHomeEntering(false)
-    }, 350)
+    }, 500)
   }
 
   useEffect(() => {

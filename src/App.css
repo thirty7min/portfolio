@@ -115,11 +115,11 @@
 }
 
 .content-out-left {
-  animation: content-out-left 0.2s var(--ease-out) both;
+  animation: content-out-left 0.28s var(--ease-out) both;
 }
 
 .content-out-right {
-  animation: content-out-right 0.2s var(--ease-out) both;
+  animation: content-out-right 0.28s var(--ease-out) both;
 }
 
 @keyframes content-out-left {
@@ -145,11 +145,11 @@
 }
 
 .content-in-right {
-  animation: content-in-right 0.3s var(--ease-out) both;
+  animation: content-in-right 0.4s var(--ease-out) both;
 }
 
 .content-in-left {
-  animation: content-in-left 0.3s var(--ease-out) both;
+  animation: content-in-left 0.4s var(--ease-out) both;
 }
 
 @keyframes content-in-right {
@@ -190,7 +190,7 @@
 
 .first-load .profile,
 .first-load .tabs {
-  animation: rise-in 0.45s var(--ease-out) both;
+  animation: rise-in 0.55s var(--ease-out) both;
 }
 
 .first-load .tabs {
@@ -198,7 +198,7 @@
 }
 
 .first-load .content > .section > * {
-  animation: rise-in 0.45s var(--ease-out) both;
+  animation: rise-in 0.55s var(--ease-out) both;
 }
 
 .first-load .content > .section:nth-child(1) > *:nth-child(1) { animation-delay: 0.16s; }
@@ -297,7 +297,29 @@
 .design-page {
   min-height: 100vh;
   background: #f3f4f5;
-  animation: content-in-right 0.3s var(--ease-out) both;
+  animation: page-in-right 0.45s var(--ease-out) both;
+}
+
+@keyframes page-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes page-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Closing: the detail slides out right while home enters from the left */
@@ -307,7 +329,7 @@
   z-index: 90;
   overflow: hidden;
   pointer-events: none;
-  animation: page-out-right 0.3s var(--ease-out) both;
+  animation: page-out-right 0.25s var(--ease-out) both;
 }
 
 @keyframes page-out-right {
@@ -322,7 +344,7 @@
 }
 
 .home-in-left {
-  animation: content-in-left 0.3s var(--ease-out) both;
+  animation: page-in-left 0.45s var(--ease-out) both;
 }
 
 /* Opening a design: a copy of home slides out left on top while the
@@ -333,7 +355,7 @@
   z-index: 90;
   overflow: hidden;
   pointer-events: none;
-  animation: page-out-left 0.3s var(--ease-out) both;
+  animation: page-out-left 0.25s var(--ease-out) both;
 }
 
 @keyframes page-out-left {
@@ -401,6 +423,10 @@
   flex-direction: column;
   gap: 16px;
   padding-left: 32px;
+}
+
+.design-groups[hidden] {
+  display: none;
 }
 
 .design-group {
@@ -496,11 +522,11 @@
 
 /* Vertical transitions between designs, following list order */
 .detail-in-up {
-  animation: detail-in-up 0.3s var(--ease-out) both;
+  animation: detail-in-up 0.4s var(--ease-out) both;
 }
 
 .detail-in-down {
-  animation: detail-in-down 0.3s var(--ease-out) both;
+  animation: detail-in-down 0.4s var(--ease-out) both;
 }
 
 .detail-leaving {
@@ -512,11 +538,11 @@
 }
 
 .detail-out-up {
-  animation: detail-out-up 0.2s var(--ease-out) both;
+  animation: detail-out-up 0.28s var(--ease-out) both;
 }
 
 .detail-out-down {
-  animation: detail-out-down 0.2s var(--ease-out) both;
+  animation: detail-out-down 0.28s var(--ease-out) both;
 }
 
 @keyframes detail-in-up {
@@ -647,7 +673,7 @@
   display: flex;
   justify-content: center;
   padding: 40px 24px;
-  background: #fff;
+  background: rgba(34, 34, 34, 0.05);
   border-radius: 24px;
 }
 
@@ -686,7 +712,6 @@
   height: 220px;
   border-radius: 24px;
   overflow: hidden;
-  background: #f3f4f5;
 }
 
 .mobile-toast-wrap {

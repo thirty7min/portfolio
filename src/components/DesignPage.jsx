@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
+// Hidden while there's only one design — flip back on when more ship
+const SHOW_GROUPS = false
+
 function GroupChevron({ open }) {
   return (
     <svg
@@ -66,7 +69,7 @@ export default function DesignPage({
       const leavingItem = all.find((x) => x.slug === previous.slug)
       if (leavingItem) setLeaving({ item: leavingItem, dir: d })
       prevRef.current = { slug: item.slug, index }
-      const t = setTimeout(() => setLeaving(null), 250)
+      const t = setTimeout(() => setLeaving(null), 300)
       return () => clearTimeout(t)
     }
     prevRef.current = { slug: item.slug, index }
@@ -132,7 +135,11 @@ export default function DesignPage({
               Design
             </button>
           </div>
-          <nav className="design-groups" aria-label="Designs">
+          <nav
+            className="design-groups"
+            aria-label="Designs"
+            hidden={!SHOW_GROUPS}
+          >
             {groups.map((group) => (
               <div className="design-group" key={group.label}>
                 <button
