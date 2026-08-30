@@ -22,7 +22,7 @@ const TOAST_MOBILE =
   'On mobile the same toast collapses into a title only pill. The description and action drop away, the radius goes full, and a backdrop blur keeps it legible over whatever is behind it.'
 
 const TOAST_PLAYGROUND =
-  'You can test the toast below. They stack at the bottom left of the screen just like the demo above, timers pause while you hover the stack, and hitting Retry patches the toast through loading to success in place.'
+  'You can test the toast below. They show up at the bottom left of the screen and stack as more come in, timers pause while you hover the stack, and hitting Retry patches the toast through loading to success in place.'
 
 const PRODUCT_DESIGNS = []
 
