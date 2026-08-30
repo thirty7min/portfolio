@@ -650,23 +650,23 @@
 
 .modal-title {
   font-weight: 500;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
-  color: #000;
+  color: #222;
 }
 
 .modal-year {
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 450;
+  font-size: 15px;
   line-height: 1.5;
   color: rgba(34, 34, 34, 0.8);
 }
 
 .modal-desc {
-  font-weight: 500;
-  font-size: 14px;
+  font-weight: 450;
+  font-size: 15px;
   line-height: 1.5;
-  color: #000;
+  color: rgba(34, 34, 34, 0.8);
 }
 
 .modal-showcase {
