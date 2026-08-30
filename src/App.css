@@ -692,13 +692,13 @@
   font-weight: 500;
   font-size: 13px;
   color: #222;
-  background: rgba(34, 34, 34, 0.05);
+  background: #f3f4f5;
   line-height: 1.5;
   transition: background 0.15s ease, transform 0.16s var(--ease-out);
 }
 
 .demo-pill:hover {
-  background: rgba(34, 34, 34, 0.1);
+  background: #fff;
 }
 
 .demo-pill:active {

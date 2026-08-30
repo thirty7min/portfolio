@@ -22,7 +22,7 @@ const TOAST_MOBILE =
   'On mobile the same toast collapses into a title only pill. The description and action drop away, the radius goes full, and a backdrop blur keeps it legible over whatever is behind it.'
 
 const TOAST_PLAYGROUND =
-  'And here is the real thing, go ahead and fire a few. They stack at the bottom left of the screen just like the demo above, timers pause while you hover the stack, and hitting Retry patches the toast through loading to success in place.'
+  'You can test the toast below. They stack at the bottom left of the screen just like the demo above, timers pause while you hover the stack, and hitting Retry patches the toast through loading to success in place.'
 
 const PRODUCT_DESIGNS = []
 
@@ -484,6 +484,10 @@ export default function App() {
   const startHomeTransition = (fromItem) => {
     setActive('Designs')
     setFirstLoad(false)
+    // Clear any stale tab-transition state so the remounted content
+    // doesn't replay its own slide against the page-level one
+    setEnterDir(0)
+    setLeaving(null)
     setExitingDesign(fromItem)
     setHomeEntering(true)
     clearTimeout(exitTimer.current)
